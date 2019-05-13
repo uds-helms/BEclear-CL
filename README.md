@@ -5,7 +5,21 @@ Correction of batch effects with [BEclear](https://bioconductor.org/packages/rel
 
 ## Installation
 
+```bash
+chmod +x BEclearCL.R
+```
+
 ## Usage example
+
+Accessing the help pages:
+
+```bash
+./BEclearCL.R -h
+```
+
+```bash
+cat test.txt | ./BEclearCL.R -w
+```
 
 ## Citation
 
