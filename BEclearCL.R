@@ -38,23 +38,32 @@ l<-lapply(c("BEclear", "data.table", "futile.logger", "optparse"), require,
 ## https://www.r-bloggers.com/passing-arguments-to-an-r-script-from-command-lines/
 option_list = list(
     make_option(c("-f", "--file"), type="character", default=NULL, 
-                help="dataset file name", metavar="character"),
+                help="dataset file name. If not set, STDIN is used", metavar="character"),
     make_option(c("-d", "--detection"), default=FALSE, 
                 help="Do the detection of batch effects",
                 metavar="character"),
-    make_option(c("-o", "--out"), type="character", default="out.txt", 
-                help="output file name [default= %default]", metavar="character")
+    make_option(c("-o", "--out"), type="character", default=NULL, 
+                help="output file name. If not set, STDOUT is used", 
+                metavar="character"),
+    make_option(c("-c", "--cores"), type="numeric", default=1, 
+                help="The number of workers for parallelisation",
+                metavar="numeric")
 )
 
 opt_parser = OptionParser(option_list=option_list)
 opt = parse_args(opt_parser)
 
 ## Prepare BiocParallelParam
-bpparam <- MulticoreParam(workers = 2)
+bpparam <- SnowParam(workers = opt$cores)
 tmp <- flog.threshold(ERROR)
 
-## Read from stdin
-input<-file('stdin', 'r')
+## Read input
+
+if(is.null(opt$file)){
+    input <- file('stdin', 'r')
+}else{
+    input<-file(opt$file, 'r')
+}
 data <- read.table(input, header = T, sep = "\t")
 
 if(opt$detection){
@@ -63,11 +72,9 @@ if(opt$detection){
 
 data <- imputeMissingData(data, BPPARAM = bpparam )
 
-write.table(data, "", sep = "\t",row.names = TRUE, col.names = TRUE)
-
-# if (is.null(opt$file)){
-#     print_help(opt_parser)
-#     stop("At least one argument must be supplied.", call.=FALSE)
-# }
-
+out <- opt$out
+if(is.null(out)){
+    out <- ""
+}
+write.table(data, out, sep = "\t",row.names = TRUE, col.names = TRUE)
 
