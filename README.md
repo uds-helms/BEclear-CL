@@ -2,10 +2,13 @@
 
 ## Description
 Correction of batch effects with [BEclear](https://bioconductor.org/packages/release/bioc/html/BEclear.html) as a command line tool.
+If you have any issues regarding the core program, please visit the [originial BEclear repository](https://github.com/David-J-R/BEclear/issues).
 
 ## Installation
 
 ```bash
+git clone git@github.com:David-J-R/BEclear-CL.git
+cd BEclear-CL
 chmod +x BEclearCL.R
 ```
 
@@ -16,6 +19,14 @@ Accessing the help pages:
 ```bash
 ./BEclearCL.R -h
 ```
+
+Simple usage example:
+
+```bash
+./BEclearCL.R -f test.txt -o testImputed.txt
+```
+
+Using BEclearCL in a pipeline:
 
 ```bash
 cat test.txt | ./BEclearCL.R -w
