@@ -47,10 +47,70 @@ To make the Command-Line tool executable, you need to call:
 ```{sh, eval=FALSE}
 chmod +x BEclearCL.R
 ```
-
+\newpage
 # Usage
 
 In the following we will document the Command-Line parameters of the tool and the format of input and output.
+The parameters will be explained consecutively:
+  
+  + -f _filename_, --file=_filename_
+  
+    Where _filename_ is the path to the input file containing a matrix with real numbers. 
+    The matrix can already contain missing values, named `NA`.
+    The features must be represented by the rows and the samples by columns. 
+    For the columns the file has to contain a header. For the rows it can, but doesn't need 
+    to contain an identifier in the first column. columns have to be tab-seperated.
+    
+    If you don't set this parameter, BEclearCL expects this input from STDIN, so that it 
+    can be integrated into pipelines.
+    
+  + -o _filename_, --out=_filename_
+  
+     Where _filename_ is the path where the output should be written to. 
+     The format is the same as for the input. 
+     
+     If you don't set this parameter, BEclearCL prints the output to STDOUT.
+  
+  + -d, --detection
+    
+    If this parameter is set Batch effects are detected. 
+    Otherwise the tool only does the data imputation and expects 
+    the input to already contain missing values, named `NA`.
+    
+  + -s _filename_ --samples=_filename_
+    
+    Where _filename_ is the path to the input file containing assignment of 
+    samples to batches. It must contain a column named sample_id with the
+    sample ID (same as in the input data) and one named batch_id with 
+    the coresponding IDs for the batches.
+    
+    If this parameter is nor provided each sample is treated as its own batch.
+    
+  + -c _number_, --cores=_number_
+  
+    Where _number_ represents the _number_ of cores you want the tool to use.
+    It uses a snow backend for doing so.
+    
+  + -b _filename_, --BEscore=_filename_
+  
+    Where _filename_ is the path where the table containing the calculated
+    batch scores should be written to.
+    
+    If not set, the file isn't written.
+    
+  + -v, --verbose
+    
+    If set, the tool will write output about its progress to the STDOUT.
+    By default it doesn't.
+    
+  + -r, --replace
+  
+    If values outside of the interval between 0 and 1 should be cropped to 0 or 1,
+    which can be necessary depending on your type of data. 
+    For example for DNA methylation data.
+    
+    By default this isn't done. 
+    
 
 # Theoretical Background
 

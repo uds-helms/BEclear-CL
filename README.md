@@ -36,7 +36,7 @@ cat test.txt | ./BEclearCL.R -w
 
 ## Additional Help
 
-A more detailed description of the tool can be found in the Documentation.pdf.
+A more detailed description of the tool can be found in the [Documentation.pdf](https://github.com/David-J-R/BEclear-CL/blob/master/doc/Documentation.pdf).
 
 ## Citation
 
