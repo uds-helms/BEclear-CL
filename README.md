@@ -9,6 +9,8 @@ If you have any issues regarding the core program, please visit the [originial B
 ```bash
 git clone git@github.com:David-J-R/BEclear-CL.git
 cd BEclear-CL
+## check and install required packages
+Rscript install.R
 chmod +x BEclearCL.R
 ```
 
