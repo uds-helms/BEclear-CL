@@ -34,6 +34,10 @@ Using BEclearCL in a pipeline:
 cat test.txt | ./BEclearCL.R -w
 ```
 
+## Additional Help
+
+A more detailed description of the tool can be found in the Documentation.pdf.
+
 ## Citation
 
 Akulenko, R., Merl, M., & Helms, V. (2016). BEclear: Batch effect detection and 
