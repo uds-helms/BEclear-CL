@@ -25,6 +25,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Getting Started
 
+You have the choice to either download the latest tarball from https://github.com/David-J-R/BEclear-CL/archive/master.zip and expand it or clone the repository with the following command:
+
+```{sh, eval = FALSE}
+git clone git@github.com:David-J-R/BEclear-CL.git
+```
+
+
 For using the Command-Line version of BEclear, you need to have R with a version of at least 3.5 installed on your system.
 Furthermore you need the following R packages:
 
