@@ -38,7 +38,7 @@ Furthermore you need the following R packages:
   + `r BiocStyle::Biocpkg("BEclear")` (>= 2.0)
   + `r BiocStyle::CRANpkg("optparse")`
   
-To install them you can either run our provided  `install.R` script or install them by typing the following in your R environment:
+To install them you can either run our provided  `install_requirements.R` script or install them by typing the following in your R environment:
 
 ```{r, eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))

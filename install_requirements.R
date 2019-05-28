@@ -18,7 +18,7 @@ require(Biobase, quietly = TRUE)
 
 
 ## Check dependencies and if necessary install them
-if(!requireNamespace("BiocManager", quietly = TRUE) | package.version("BEclear") < 2){
+if(!requireNamespace("BEclear", quietly = TRUE) || package.version("BEclear") < 2){
   if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
   
