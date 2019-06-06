@@ -7,7 +7,7 @@ author:
       email: David.J.Rasp@gmail.com
 date:  "`r Sys.Date()`"
 abstract: |
-  This Command-Line tool provides functions to detect and correct for batch effects in DNA methylation data. 
+  This command-line tool provides functions to detect and correct for batch effects in DNA methylation data. 
   The core function for the data imputation is based on latent factor models [@Candes2009] and can also be used to predict 
   missing values in any other matrix containing real numbers.
   In this documentation we guide you through the installation and usage of it. For the corresponding
@@ -32,7 +32,7 @@ git clone git@github.com:David-J-R/BEclear-CL.git
 ```
 
 
-For using the Command-Line version of BEclear, you need to have R with a version of at least 3.5 installed on your system.
+For using the command-line version of BEclear, you need to have R with a version of at least 3.5 installed on your system.
 Furthermore you need the following R packages:
 
   + `r BiocStyle::Biocpkg("BEclear")` (>= 2.0)
@@ -49,15 +49,28 @@ BiocManager::install("BEclear")
 install.packages("optparse")
 ```
 
-To make the Command-Line tool executable, you need to call:
+To make the command-line tool executable, you need to call:
 
 ```{sh, eval=FALSE}
 chmod +x BEclearCL.R
 ```
 \newpage
+
+
 # Usage
 
-In the following we will document the Command-Line parameters of the tool and the format of input and output.
+## Example
+
+The data-set used in this example is from The Cancer Genome Atlas [@TCGA].
+
+```{sh, eval=FALSE}
+./BEclearCL.R -f testDataSet.txt -o testImputed.txt -s testSamples.txt
+```
+
+## Parameters
+
+
+In the following we will document the command-line parameters of the tool and the format of input and output.
 The parameters will be explained consecutively:
   
   + -f _filename_, --file=_filename_
@@ -65,10 +78,10 @@ The parameters will be explained consecutively:
     Where _filename_ is the path to the input file containing a matrix with real numbers. 
     The matrix can already contain missing values, named `NA`.
     The features must be represented by the rows and the samples by columns. 
-    For the columns the file has to contain a header. For the rows it can, but doesn't need 
-    to contain an identifier in the first column. columns have to be tab-seperated.
+    For the columns the file has to contain a header. For the rows it can, but does not need 
+    to contain an identifier in the first column. Columns have to be tab-seperated.
     
-    If you don't set this parameter, BEclearCL expects this input from STDIN, so that it 
+    If you do not set this parameter, BEclearCL expects this input from STDIN, so that it 
     can be integrated into pipelines.
     
   + -o _filename_, --out=_filename_
@@ -76,11 +89,11 @@ The parameters will be explained consecutively:
      Where _filename_ is the path where the output should be written to. 
      The format is the same as for the input. 
      
-     If you don't set this parameter, BEclearCL prints the output to STDOUT.
+     If you do not set this parameter, BEclearCL prints the output to STDOUT.
   
   + -d, --detection
     
-    If this parameter is set Batch effects are detected. 
+    If this parameter is set batch effects are detected. 
     Otherwise the tool only does the data imputation and expects 
     the input to already contain missing values, named `NA`.
     
@@ -91,7 +104,8 @@ The parameters will be explained consecutively:
     sample ID (same as in the input data) and one named batch_id with 
     the coresponding IDs for the batches.
     
-    If this parameter is nor provided each sample is treated as its own batch.
+    If this parameter is not provided each sample is tested against all other samples
+    to find and correct for sample specific effects.
     
   + -c _number_, --cores=_number_
   
@@ -103,12 +117,12 @@ The parameters will be explained consecutively:
     Where _filename_ is the path where the table containing the calculated
     batch scores should be written to.
     
-    If not set, the file isn't written.
+    If not set, the file is not written.
     
   + -v, --verbose
     
     If set, the tool will write output about its progress to the STDOUT.
-    By default it doesn't.
+    By default it does not.
     
   + -r, --replace
   
@@ -116,7 +130,7 @@ The parameters will be explained consecutively:
     which can be necessary depending on your type of data. 
     For example for DNA methylation data.
     
-    By default this isn't done. 
+    By default this is not done. 
     
 
 # Theoretical Background
@@ -147,7 +161,7 @@ a matrix \(L_i\), which represents the effect of the features (genes in our case
 and a matrix \(R_j\) describing the effect of the samples in the following way:
 
 \begin{equation}
-D_{ij} = L_{i}^{T} \times R_{j}
+D_{ij} = L_{i}^{T} \times R_{j}.
 (\#eq:assumption)
 \end{equation}
 
@@ -157,17 +171,19 @@ This division into blocks allows for parallelisation of the method, which can be
 useful to speed up the process. We have found that a block-size of 60x60 works 
 well[@Akulenko2016].
 
+The error for each block is calculated in the following way:
+
 \begin{equation}
-  errorMatrix_{ij} = Block_{ij} - L_{i}^{T} \times R_{j}
+  errorMatrix_{ij} = Block_{ij} - L_{i}^{T} \times R_{j}.
   (\#eq:errormatrix)
 \end{equation}
 
-We try to minimalise the following loss function through a gradient descent:
+We try to minimize the following loss function through a gradient descent:
 
 \begin{equation}
   min_{L, R}  \sum_{ij \in K}(errorMatrix_{ij}^2) + \lambda \times
   (\left\lVert L_{i}\right\rVert_{F}^{2} + 
-  \left\lVert R_{j}\right\rVert_{F}^{2} )
+  \left\lVert R_{j}\right\rVert_{F}^{2} ).
   (\#eq:loss)
 \end{equation}
 Where \(K\) is the set of tuples \((i,j)\) for which the value is present. 
@@ -188,20 +204,20 @@ Then for each iteration the following is done:
 calculation:
 
     + \begin{equation}
-      L_i = L_i + 2 \times \gamma \times  (errorMatrix_{ij} \times R_j - \lambda \times L_i)
+      L_i = L_i + 2 \times \gamma \times  (errorMatrix_{ij} \times R_j - \lambda \times L_i).
       (\#eq:Lmod)
       \end{equation}
 
     + \begin{equation}
-      R_j = R_j + 2 \times \gamma \times (errorMatrix_{ij} \times L_i - \lambda \times R_j)
+      R_j = R_j + 2 \times \gamma \times (errorMatrix_{ij} \times L_i - \lambda \times R_j).
       (\#eq:Rmod)
       \end{equation}
 
 * Then the new error matrix and loss are calculated.
 * If the old loss is smaller than the new one: 
-    + \(\gamma = \gamma \div 2\)
+    + \(\gamma = \gamma \div 2.\)
 * Else:
-    + \(\gamma = \gamma \times 1.05\)
+    + \(\gamma = \gamma \times 1.05.\)
     
 The \(L_i\) and \(R_j\) matrices at the end of the last iteration are then used to 
 impute the missing data. The default number of iterations is 50.

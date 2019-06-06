@@ -37,3 +37,5 @@ rsconnect/
 .Rproj.user
 BEclear-CL.Rproj
 *.log
+
+*.Rproj

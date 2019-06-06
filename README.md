@@ -25,7 +25,7 @@ Accessing the help pages:
 Simple usage example:
 
 ```bash
-./BEclearCL.R -f test.txt -o testImputed.txt
+./BEclearCL.R -f testDataSet.txt -o testImputed.txt -s testSamples.txt
 ```
 
 Using BEclearCL in a pipeline:
