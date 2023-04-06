@@ -1,10 +1,10 @@
 ---
 title: "BEclearCL Documentation"
 author: 
-    - name: David Rasp
+    - name: Livia Rasp
       affiliation:
         Center for Bioinformatics, Saarland University, Saarbruecken, Germany
-      email: David.J.Rasp@gmail.com
+      email: Livia.Rasp@gmail.com
 date:  "`r Sys.Date()`"
 abstract: |
   This command-line tool provides functions to detect and correct for batch effects in DNA methylation data. 
@@ -18,6 +18,13 @@ output:
 bibliography: "`r system.file('REFERENCES.bib', package = 'BEclear')`"
 ---
 
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newenvironment{cslreferences}%
+  {\setlength{\parindent}{0pt}%
+  \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces}%
+  {\par}
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -25,10 +32,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Getting Started
 
-You have the choice to either download the latest tarball from https://github.com/David-J-R/BEclear-CL/archive/master.zip and expand it or clone the repository with the following command:
+You have the choice to either download the latest tarball from https://github.com/uds-helms/BEclear-CL/archive/master.zip and expand it or clone the repository with the following command:
 
 ```{sh, eval = FALSE}
-git clone git@github.com:David-J-R/BEclear-CL.git
+git clone git@github.com:uds-helms/BEclear-CL.git
 ```
 
 
